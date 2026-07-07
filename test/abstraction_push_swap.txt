@@ -1,0 +1,205 @@
+Vamos fazer o seguinte.
+Você sabe como construir a push_swap em segundos, mas eu ainda não, eu tenho o conhecimento necessário, em parte fragmentado, em parte conhecimento de buscar conhecimento para conseguir entender e construir o todo.
+Então agora vamos entender o fluxo da push_swap da seguinte forma:
+Você vai me fazendo perguntas para estimular meu pensamento para que eu possa entender todo o fluxo da push swap. Eu vou retornando algumas perguntas caso eu tenha dúvida. Você vai ser meu Sênior segurando minha mão e me ajudando a processar cada informação. Eu preciso aprender e chegar nas conclusões de acordo com seu suporte 
+
+
+
+                *FASE 1*
+1
+ - primeira verificação argc e argv
+    ./push_swap e dá Enter - return (0);
+    ./push_swap 42 - Uma pilha com um número só já está ordenada! Então ele também encerra silenciosamente.
+    ./push_swap "5 2 9 1" - ft_split para separar os números antes de validar.
+
+2
+- caso o argumento seja uma sting argc == 2, passar o ft_split para criar um array com todos os itens.
+- Caso não, o terminal já criou um array de argumentos que serão usados.
+Extração de Configuração (Flags):
+  - Verifica se os primeiros argumentos são flags (--simple, --bench, etc).
+  - Se sim: Salva essa preferência e ajusta o "ponto de partida" para a próxima etapa.
+  - Se a flag for inválida (ex: --invalida) -> Error.
+
+3
+Verificar se temos argumentos válidos. O primeiro indice ou primeiro número pode conter sinal, mas os seguintes não. - Entender se é extamente essa a regra
+Nesta função de verificação preciso realizar várias verificações de erro de argumentos passados, para evitar bugs ou retornos inesperados.
+
+Usar atoi para converter todos os itens válidos do array. atoi precisa ser refatorada para suportar long long int. 
+
+4
+Fazer verificações de duplicatas e INT_MAX INT_MIN antes de inserir na stack A
+Lembrar de dar free nos ponteiros que já foram criados e parar a operação por argumento inválido.
+
+                *Resumo até o momento:*
+*** FASE 0: PREPARAÇÃO (No arquivo .h) ***
+- Declaração da struct t_stack (nó da lista).
+- Declaração de estrutura/variáveis para guardar as configurações (qual flag foi passada).
+
+*** FASE 1: PARSING E INICIALIZAÇÃO ***
+- Cria a Pilha A (vazia).
+
+1. Padronização da Entrada:
+  - argc == 1 ou arg isolado ("42") -> encerra silenciosamente.
+  - argc == 2 -> ft_split para criar array.
+  - argc > 2 -> usa o próprio argv.
+
+2. Extração de Configuração (Flags):
+  - Verifica se os primeiros argumentos são flags (--simple, --bench, etc).
+  - Se sim: Salva essa preferência e ajusta o "ponto de partida" para a próxima etapa.
+  - Se a flag for inválida (ex: --invalida) -> Error.
+
+3. Validação de Números (A partir do ponto de partida):
+  - Verifica caracteres válidos (sinais/dígitos). Se erro -> std 2.
+  - Converte (atoi) e verifica limites (INT_MAX/MIN). Se erro -> std 2.
+  - Verifica duplicatas na Pilha A. Se erro -> std 2.
+  - Passou? -> Aloca e insere na Pilha A.
+
+4. Limpeza:
+  - Free no ft_split (se foi usado).
+
+-------------------------------------
+
+                *FASE 2*
+
+- Varrer a planilha e verificar se está organizada usando a função para verificar a desordem retornando esse valor em uma variável.
+Caso esteja, movimentos 0, nada realizado, sucesso. return (0);
+
+planilha não ordenada, o programa aciona a estratégia de ordenação
+
+O programa precisa rodar a estratégia que foi passada, função recebe o parâmetro do argumento correspondente a flag que foi passada, essa informação foi tratada na fase 1 e passada para essa função. Caso tenha flag, usaremos a função correspondente para essa flag. Caso não, usaremos a função adaptativa.
+       
+        *Fluxo  --adaptative*
+Nenhuma flag foi enviada, o número de desordem foi avaliado de acordo com a quantidade de itens da lista, a função adaptative vai receber esse número de desordem e quantidade de itens e vai apontar para a melhor função de melhor desempenho
+
+
+      *Resumo*
+
+     *** FASE 2: O CÉREBRO (Análise e Decisão) ***
+
+1. Varredura Inicial (Métrica de Desordem):
+   - Chama a função que varre a Pilha A e calcula o nível de desordem.
+   - Guarda esse valor em uma variável.
+   - A desordem é 0? -> Significa que já está ordenada. Libera a memória (free) e encerra o programa com sucesso (return 0).
+
+2. Roteamento de Estratégia:
+   - A desordem é maior que 0, então precisamos ordenar. O programa olha a configuração salva na Fase 1.
+   
+   - CENÁRIO COM FLAG: Se o usuário exigiu uma estratégia específica:
+     - Flag --simple -> Aciona o Fluxo Simple.
+     - Flag --medium -> Aciona o Fluxo Medium.
+     - Flag --complex -> Aciona o Fluxo Complex.
+
+   - CENÁRIO SEM FLAG (Fluxo Adaptativo):
+     - Recebe a quantidade de itens e o valor da desordem.
+     - Avalia esses dois números e decide qual é a estratégia de melhor desempenho para o caso.
+     - Redireciona para o fluxo escolhido (Simple, Medium ou Complex).
+
+3. Encerramento e Limpeza:
+   - Ordenação finalizada.
+   - Se a flag --bench foi passada lá no início -> Imprime os resultados e métricas na tela.
+   - Dá free na Pilha A (e na Pilha B, se tiver sobrado algo).
+   - Encerra o programa.
+
+
+Quick Overview
+Phase 1: Parse, validate, build stack A Phase 2: Measure disorder → route to best sort strategy → execute → clean up
+
+You want clarity on the flow, edge cases, and decision logic before you code.
+
+Phase 1 Refinements
+1. Argument Handling
+./push_swap          → argc == 1 → return0 silently
+./push_swap 42       → single number, already sorted → return 0
+./push_swap "5 2 9"→ argc == 2 → ft_split, then validate
+./push_swap 5 2 9    → argc > 2 → use argv directly
+2. Sign Rules (Clarification)
+Standard rule:
+
+Each number can have one leading sign (+ or -).
+Signs belong to the number, not between tokens.
+Examples: ✅ ./push_swap +42 -17 99 ✅ ./push_swap "-5 +2 9" ❌ ./push_swap 4+2 (sign mid-number) ❌ ./push_swap + 42 (sign separated from digit)
+
+Your validation loop should:
+
+Skip one leading + or - per token.
+Ensure the rest are digits.
+Reject empty strings after split.
+3. INT Overflow & Duplicates
+Order matters:
+
+Parse with ft_atoi_long (returns long long).
+Check < INT_MIN or > INT_MAX → print "Error\n" to stderr (fd 2), free, exit.
+Check duplicates before inserting into stack A.
+Pseudo-code: c long long val = ft_atoi_long(token); if (val < INT_MIN || val > INT_MAX) error_exit(stack_a, split_array); if (is_duplicate(stack_a, (int)val)) error_exit(stack_a, split_array); push_to_stack_a((int)val);
+
+4. Flag Parsing
+Allowed flags:
+
+--simple, --medium, --complex (force a strategy)
+--bench (print metrics at end)
+--adaptative (explicit, but it's also the default)
+Logic: c int i = 1; while (i < argc && argv[i][0] == '-' && argv[i][1] == '-') { if (!is_valid_flag(argv[i])) error_exit(); // "Error\n" to stderr save_flag(argv[i]); i++; } // Now i points to first number argument
+
+If user mixes flags and numbers weirdly: ./push_swap --simple 5 --bench2→ reject or define clear rule Recommendation: All flags must come first. Once you hit a non-flag, stop flag parsing.
+
+Phase 2 Refinements
+1. Disorder Metric
+You need a single numeric score that captures "how unsorted is this?"
+
+Options:
+
+Inversion count: Count pairs (i, j) where i < j but stack[i] > stack[j].
+LIS-based: n - length_of_longest_increasing_subsequence.
+Custom heuristic: Weighted sum of inversions + distance from sorted positions.
+Recommendation for adaptive routing:
+Use inversion count — it's simple, fast, and correlates well with required moves.
+
+int disorder = count_inversions(stack_a);
+if (disorder == 0) {
+    free_stack(stack_a);
+    return 0; // already sorted
+}
+2. Strategy Routing
+With flag: c if (config.flag == SIMPLE) sort_simple(stack_a, stack_b); else if (config.flag == MEDIUM) sort_medium(stack_a, stack_b); else if (config.flag == COMPLEX) sort_complex(stack_a, stack_b);
+
+Without flag (adaptive): ```c int size = stack_size(stack_a); int disorder = count_inversions(stack_a);
+
+if (size <= 3) sort_simple(stack_a, stack_b); else if (size <= 100|| disorder < size * 0.3) sort_medium(stack_a, stack_b); else sort_complex(stack_a, stack_b); ```
+
+Thresholds are yours to tune — test with random inputs and measure move counts.
+
+3. Bench Output
+If --bench was set: c if (config.bench) { printf("Moves: %d\n", move_count); printf("Comparisons: %d\n", comparison_count); printf("Strategy: %s\n", strategy_name); }
+
+Print to stdout (fd 1), after the move sequence.
+
+Edge Cases Checklist
+Input	Expected Behavior
+./push_swap	Return 0 silently
+./push_swap 42	Return 0 silently (sorted)
+./push_swap ""	Error (empty string after split)
+./push_swap " "	Error (no valid numbers)
+./push_swap 1 1	Error (duplicate)
+./push_swap 2147483648	Error (> INT_MAX)
+./push_swap -2147483649	Error (< INT_MIN)
+./push_swap --invalid	Error (bad flag)
+./push_swap --simple	Return 0 (no numbers)
+./push_swap 3 2 1	Output moves, return 0
+Suggested File Structure
+push_swap/
+├── src/
+│   ├── main.c              # Entry point, calls phase 1 → phase 2
+│   ├── parse.c             # Argument parsing, ft_split handling
+│   ├── validate.c          # Number validation, duplicate check
+│   ├── stack_init.c        # Stack A creation, push operations
+│   ├── disorder.c          # Inversion count / disorder metric
+│   ├── strategy_router.c   # Adaptive logic, flag handling
+│   ├── sort_simple.c       # 2-3 elements
+│   ├── sort_medium.c       # 4-100 elements
+│   ├── sort_complex.c      # 100+ elements (chunk-based, etc.)
+│   ├── operations.c        # sa, sb, ss, pa, pb, ra, rb, rr, rra, rrb, rrr
+│   ├── utils.c             # ft_atoi_long, is_sorted, etc.
+│   └── cleanup.c           # free_stack, error_exit
+├── includes/
+│   └── push_swap.h
+└── Makefile
