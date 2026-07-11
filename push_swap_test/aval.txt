@@ -1,0 +1,28 @@
+Entradas muito grandes (500 números)
+
+Faça o teste com 500 números aleatórios. Use o binário de verificação fornecido.
+Gere usando: shuf -i 1-1000 -n 500
+---------------
+Teste de sinalizadores de estratégia
+
+Gere 50 números aleatórios: shuf -i 1-200 -n 50
+
+Teste a mesma entrada com as opções --simple, --medium e --complex.
+-------------
+Entradas pequenas (3 números)
+
+ARG="2 1 0"; ./push_swap $ARG \vert{} ./checker_linux $ARG
+----------------------------
+Entradas médias (5 números)
+
+$>ARG="1 5 2 4 3"; ./push_swap $ARG \vert{} ./checker_linux$ARG
+---------------------------
+Modo de referência e cálculo de desordem
+
+./push_swap --bench --simple 5 4 3 2 1 2>/dev/null
+-------------------
+Entradas grandes (100 números)
+
+Faça o teste com 100 números aleatórios. Use o binário de verificação fornecido.
+
+Gere números aleatórios usando: shuf -i 1-500 -n 100

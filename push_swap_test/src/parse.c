@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bramos <bramos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adrianda <adrianda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 00:38:36 by bramos            #+#    #+#             */
-/*   Updated: 2026/07/11 00:38:37 by bramos           ###   ########.fr       */
+/*   Updated: 2026/07/11 08:33:25 by adrianda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	assign_indices(t_ps *ps)
 	}
 }
 
-static int	append_node(t_stack **head, t_stack **tail, int val)
+int	append_node(t_stack **head, t_stack **tail, int val)
 {
 	t_stack	*node;
 
@@ -70,25 +70,13 @@ static int	append_node(t_stack **head, t_stack **tail, int val)
 
 int	parse_args(t_ps *ps, int argc, char **argv, int start)
 {
-	int		i;
-	int		val;
 	t_stack	*head;
 	t_stack	*tail;
 
 	head = NULL;
 	tail = NULL;
-	i = start;
-	while (i < argc)
-	{
-		if (!ft_atoi_safe(argv[i], &val))
-		{
-			free_stack(&head);
-			return (0);
-		}
-		if (!append_node(&head, &tail, val))
-			return (0);
-		i++;
-	}
+	if (!parse_argv_loop(argc, argv, start, &head, &tail))
+		return (0);
 	ps->a = head;
 	ps->size_a = stack_size(ps->a);
 	assign_indices(ps);

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: adrianda <adrianda@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/07/11 07:48:56 by adrianda          #+#    #+#              #
+#    Updated: 2026/07/11 07:56:03 by adrianda         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= push_swap
 BONUS_NAME	= checker
 
@@ -14,7 +26,8 @@ SRC			= main.c strategy.c stack_utils.c stack_utils2.c \
 			  sort_simple.c sort_simple_three.c sort_medium.c \
 			  sort_medium2.c sort_complex.c sort_complex_radix.c \
 			  sort_complex_cost.c sort_complex_move.c \
-			  sort_complex_insert.c sort_adaptive.c benchmark.c
+			  sort_complex_insert.c sort_adaptive.c benchmark.c \
+			  ft_lib_utils.c ft_split.c parse_split.c
 
 OBJ			= $(addprefix $(SRC_DIR)/, $(SRC:.c=.o))
 

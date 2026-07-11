@@ -104,6 +104,19 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strlen(char *s);
 void	print_benchmark(t_ps *ps, double disorder, char *strategy,
 			char *complexity);
+char	**ft_split(char const *s, char c);
+
+/* new functions for feature split parse*/
+int		append_node(t_stack **head, t_stack **tail, int val);
+void	free_split_matrix(char **split_arr);
+int		parse_argv_loop(int argc, char **argv, int start,
+			t_stack **hd, t_stack **tl);
+
+/*ft_lib_utils for complementing the parte split*/
+int		ft_isdigit(int c);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* sort helpers */
 int		find_min_index(t_stack *stack);
