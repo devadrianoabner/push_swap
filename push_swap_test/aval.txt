@@ -26,3 +26,27 @@ Entradas grandes (100 números)
 Faça o teste com 100 números aleatórios. Use o binário de verificação fornecido.
 
 Gere números aleatórios usando: shuf -i 1-500 -n 100
+
+--------------------------------
+
+Prepare-se para nomear as complexidades: Como você introduziu muito bem o conceito de dividir os algoritmos e citou o Big-O, o avaliador com certeza vai olhar para a régua e verificar se você sabe qual é qual. Quando você for aprofundar nessa parte, tenha na ponta da língua a correspondência exata que o subject exige:
+
+--simple: Complexidade quadrática O(n²) (Geralmente Insertion Sort ou Selection Sort adaptado).
+
+--medium: Complexidade O(n√n) (Geralmente um K-Sort ou ordenação em blocos/chunks).
+
+--complex: Complexidade logarítmica O(n log n) (Geralmente um Radix Sort, Merge Sort ou Turk Algorithm super otimizado).
+
+Como ajustar a sua explicação:
+Você pode manter o diagrama simples, mas mude o discurso para algo muito mais robusto:
+"Para evitar falhas com entradas mistas ou comportamentos imprevisíveis de diferentes terminais, nós padronizamos a entrada. Independentemente de quantos argumentos o terminal nos envie, após filtrarmos as flags, nós passamos todos os argumentos numéricos por um triturador (o nosso ft_split). Isso transforma qualquer formato de entrada em uma matriz temporária na Heap, garantindo que a nossa conversão seja sempre segura, unitária e que a memória seja limpa logo em seguida de forma previsível."
+
+
+Pontos que preciso estudar:
+double  compute_disorder(t_stack *stack, int size)
+Criação do bench
+void    sort_adaptive(t_ps *ps, char **name, char **complexity)
+Algoritmos: simple, medium e complex que usamos
+
+
+https://miro.com/app/live-embed/uXjVH-pVu_M=/?embedMode=view_only_without_ui&moveToViewport=-62966%2C-59635%2C13483%2C6783&embedId=892161196025
